@@ -1,0 +1,56 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+
+# Chargement des données
+data_path = 'path/to/fer2013.csv'
+data = pd.read_csv(data_path)
+
+# EDA
+print(data.head())
+print(data.describe())
+print(data.isnull().sum())
+
+sns.countplot(x='emotion', data=data)
+plt.title('Distribution des émotions')
+plt.show()
+
+def plot_images(data, emotion, num_images=5):
+    images = data[data['emotion'] == emotion].sample(num_images)['pixels']
+    plt.figure(figsize=(10, 2))
+    for i, img in enumerate(images, 1):
+        img = np.fromstring(img, sep=' ').reshape(48, 48)
+        plt.subplot(1, num_images, i)
+        plt.imshow(img, cmap='gray')
+        plt.axis('off')
+    plt.suptitle(f'Exemples de {emotion}')
+    plt.show()
+
+emotions = data['emotion'].unique()
+for emotion in emotions:
+    plot_images(data, emotion)
+    
+#Vérification des Dimensions des Images
+image_shapes = data['pixels'].apply(lambda x: np.fromstring(x, sep=' ').shape)
+print(image_shapes.value_counts())
+
+# Prétraitement des images
+def preprocess_image(image, target_size=(48, 48)):
+    image = np.fromstring(image, sep=' ')
+    image = image.reshape(target_size)
+    image = image.astype('float32')
+    image /= 255.0
+    return image
+
+data['pixels'] = data['pixels'].apply(preprocess_image)
+
+# Division des données
+X = np.array(data['pixels'].tolist())
+y = pd.get_dummies(data['emotion']).values
+
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
+
+print(f'Train set: {X_train.shape}, Validation set: {X_val.shape}, Test set: {X_test.shape}')
