@@ -1,4 +1,4 @@
-# Project Name
+# SMART WATCH ETC
 
 ## Overview
 This project focuses on emotion recognition using deep learning. It organizes raw and processed data into a structured directory, enables model training and testing, and provides results visualization. The repository also includes tools for data augmentation and preprocessing.
