@@ -5,7 +5,7 @@ This project focuses on emotion recognition using deep learning. It organizes ra
 
 ## Directory Structure
 ```
-project_name/
+smart_watch/
 ├── data/
 │   ├── raw/
 │   │   ├── fer2013.csv
