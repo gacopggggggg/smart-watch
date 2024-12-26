@@ -1,0 +1,38 @@
+import time
+import Adafruit_GPIO.I2C as I2C #Adafruit_GPIO.I2C : Fournit des fonctionnalités pour interagir avec les périphériques I2C.
+
+from Adafruit_MAX30100 import MAX30100 # Bibliothèque spécifique pour interagir avec le capteur MAX30100.
+
+# Initialise le capteur MAX30100
+sensor = MAX30100.MAX30100()
+
+# Fonction pour initialiser le capteur
+def initialize_sensor():
+    sensor.enable_spo2() #Active le mode SpO2 (saturation en oxygène du sang) du capteur.
+    sensor.set_mode(MAX30100.MODE_SPO2_HR) #Configure le capteur pour mesurer à la fois la fréquence cardiaque (HR) et la SpO2.
+    sensor.set_led_pulse_amplitude_red(0x1F)  # Définit l'amplitude de l'impulsion de la LED rouge, utilisée pour mesurer la fréquence cardiaque.
+    sensor.set_led_pulse_amplitude_ir(0x1F)   # Définit l'amplitude de l'impulsion de la LED infrarouge, utilisée pour mesurer la SpO2.
+
+# Fonction pour lire les données du capteur
+def read_sensor_data():
+    try:
+        sensor.read_sensor()
+        heart_rate = sensor.ir    #: Récupère les données de la LED infrarouge, utilisées pour la fréquence cardiaque.
+        spo2 = sensor.red         #Récupère les données de la LED rouge, utilisées pour la SpO2.
+
+        return heart_rate, spo2
+    except Exception as e:
+        print("Erreur de lecture des données:", e)
+        return None, None     # Tente de lire les données et, en cas d'erreur, affiche un message et renvoie None pour les deux valeurs.
+
+# Initialisation du capteur
+initialize_sensor()
+
+# Boucle pour lire et afficher les données en continu
+while True:                        #Crée une boucle infinie pour lire et afficher les données en continu.
+    hr, spo2 = read_sensor_data()  # Appelle la fonction pour lire les données et les stocke dans les variables hr et spo2.
+    if hr and spo2:  #Vérifie que les données ont été lues correctement (ne sont pas None )
+        print("Fréquence cardiaque: {} bpm, SpO2: {}%".format(hr, spo2))
+    else:
+        print("Erreur de lecture des données")
+    time.sleep(1)              #Attend une seconde avant de refaire une lecture.
