@@ -43,8 +43,8 @@ project_name/
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/your_project.git
-   cd your_project
+   https://github.com/gacopggggggg/smart-watch.git
+   cd smart-watch
    ```
 2. Install required dependencies:
    ```bash
@@ -52,7 +52,7 @@ project_name/
    ```
 
 3. Set up data:
-   - Place `fer2013.csv` or other raw data files in the `data/raw/` directory.
+   - Place `fer2013.csv` in the `data/raw/` directory.
 
 4. Configure hyperparameters:
    - Update `config.yaml` for training settings and paths.
@@ -99,10 +99,10 @@ Contributions are welcome! Please follow these steps:
 5. Open a pull request.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [unversité de carthage enstab etc smart watch pole projet  License](LICENSE).
 
 ## Contact
 For any questions or feedback, please contact:
-- Name: [Your Name]
-- Email: [Your Email]
+- Name: [soulaymen tlili]
+- Email: [tlilisoulaymen@gmail.com]
 
